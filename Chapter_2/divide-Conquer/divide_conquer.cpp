@@ -24,24 +24,38 @@ void merge(int* A, int s, int m, int e)
     int* L = new int[n1];
     int* R = new int[n2];
     for(int i = 0; i<n1; i++){  // Left array
+        L[i+1] = 99;
         L[i] = A[s+i];
     }
+    
     for(int j = 0; j<n2; j++){  // Right array
+        R[j+1] = 99;
         R[j] = A[m+j+1];
     }
     
-    L[n1] = R[n2] = 1e5;
-    
-    for(int k = s, i = 0, j = 0; k<=e; k++){
-        if(L[i]<=R[j]){
-            A[k] = L[i];
-            i++;
-        }
-        else{
-            A[k] = R[j];
-            j++;
-        }
+//     Debug
+//    cout<<"start "<<s<<" end "<<e<<" ";
+//    for(int i = 0; i<n1;i++)
+//        cout<<i <<"--"<<L[i]<<"L ";
+//
+//    for(int i = 0; i<n2;i++)
+//            cout<<i <<"-"<<R[i]<<"R ";
+//    cout<<endl;
+     
+    // Without sentinel
+    for(int k = s, i = 0, j = 0;k<=e;k++){
+        if(i>=n1)           A[k] = R[j++];
+        else if(j>=n2)      A[k] = L[i++];
+        else if(R[j]<=L[i]) A[k] = R[j++];
+        else                A[k] = L[i++];
     }
+        
+//    with sentinel or sentry
+//    L[n1] = R[n2] = 1e5;
+//    for(int k = s, i = 0, j = 0; k<=e; k++){
+//        if(L[i]<=R[j])  A[k] = L[i++];
+//        else            A[k] = R[j++];
+//    }
 }
 
 
